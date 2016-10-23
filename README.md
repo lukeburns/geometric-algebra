@@ -4,7 +4,7 @@ This is a work in progress explanation of geometric algebra. Please [open an iss
 
 ## Introduction
 
-*Geometric algebra* is a language that generalizes vectors to higher dimensional objects. Vectors are useful for encoding the notion of a directed line segment, and we find that the extension of this to *bivectors* (as oriented planes), *trivectors* (as oriented volumes), and *k-vectors* (as oriented k-dimensional volumes), leads one to rich and robust algebraic structures grounded in geometric meanings. **k** is called the **grade** of a vector. Naturally, 0-vectors are simply magnitudes (real numbers) with no dimensionality at all.
+*Geometric algebra* is a language that generalizes vectors to higher dimensional objects. Vectors are useful for encoding the notion of a directed line segment, and we find that the extension of this to *bivectors* (as oriented planes), *trivectors* (as oriented volumes), and *k-vectors* (as oriented k-dimensional volumes), leads one to rich and robust algebraic structures grounded in geometry. **k** is called the **grade** of a vector. Naturally, 0-vectors are simply magnitudes (real numbers) with no dimensionality at all.
 
 I will use italics to indicate a word that the reader is not yet expected to know, using context to facilitate the learning of its meaning. Bolded font is used to indicate that I believe the meaning of the word has been sufficiently communicated. If you come across a bolded word, and do not know what I mean, re-read! I will use the strategy of introducing axioms as they're needed and will consider that I've accomplished my job if I am able to help you learn how to use the concepts here productively and consistently.
 
@@ -12,47 +12,67 @@ My mission here is to formalize the notion of grade using a product called the *
 
 ## The Geometric Product
 
-The *geometric product* of two vectors $a, b \in \mathbb{R}^\infty$ is denoted $ab$.
+The *geometric product* of two vectors $a, b \in V$ is denoted $ab$ for some real vector space $V$.
 
-In order to make sense of what this product might mean, we can separate the product into a *symmetric* part and an *anti-symmetric* part.
+In order to decide what this product might mean, we can separate the product into a *symmetric* part and an *anti-symmetric* part.
 
 $$ab = \frac{1}{2}(ab + ba) + \frac{1}{2}(ab - ba)$$
 
-The **symmetric** term is 
+The **symmetric product** is 
 
 $$\frac{1}{2}(ab + ba) = \frac{1}{2}(ba + ab),$$ 
 
-and the **anti-symmetric** term is 
+and the **anti-symmetric product** is 
 
 $$\frac{1}{2}(ab - ba) = - \frac{1}{2}(ba - ab).$$
 
+Note that these are precisely statements about the commutativity properties of $a$ and $b$. In particular,
+
+$$ab = ba \iff \frac{1}{2}(ab - ba) = 0$$
+
+and
+
+$$ab = -ba \iff \frac{1}{2}(ab + ba) = 0.$$
+
+In general, the product of $a$ and $b$ is non-commutative.
+
 #### The symmetric term
 
-If $a$ is parallel to $b$, or formally $a = cb$ for some real number $c$, then the anti-symmetric term vanishes, since scalars commute with vectors:
+Notice that if $a$ and $b$ are linearly dependent, then they commute:
 
-$$ab = \frac{1}{2}c(b^2 + b^2) + \frac{1}{2}c(b^2 - b^2) = c b^2.$$
+$$a = \lambda b \implies ab = ba, \text{ for } \lambda \in \mathbb{R}.$$
 
-We still have to make sense of $b^2$, and we'll do this shortly.
+In general, there's no reason the converse should be true. For instance, consider $\cos(\theta)$ and $\sin(\theta)$. They commute $\cos(\theta) \sin(\theta) = \sin(\theta) \cos(\theta))$ but are not linearly dependent.
+
+However, for vectors for which the converse is true, there is equivalence between their commutativity properties and geometric properties. We'll start off our collection of axioms by identifying the commutativity of vectors with collinearity:
+
+$$a = \lambda b \impliedby ab = ba, \text{ for } \lambda \in \mathbb{R},$$ 
+
+so that we have
+
+$$a = \lambda b \iff ab = ba, \text{ for } \lambda \in \mathbb{R}.$$ 
+
+I will say that $a$ and $b$ are **collinear** (or parallel) if and only if
+
+$$ab = ba.$$
 
 #### The anti-symmetric term
 
-If the notion of collinearity is naturally encoded by a vanishing anti-symmetric term, then let's define orthogonality by a vanishing symmetric term. 
+In keeping to the mission of identifying commutativity properties with geometric properties, we're going to define orthogonality by anti-symmetry.
 
-To formalize this, we can decompose $a$ into two terms $a = a_\parallel + a_\perp$, where $a_\parallel$ is parallel to $b$ and $a_\perp$ is orthogonal to $b$. 
+Call the vectors $a$ and $b$ **orthogonal** (or perpendicular) if and only if
 
-If we endow the geometric product with distributivity, then
+$$ab = -ba.$$
 
-$$ab = (a_\parallel + a_\perp) b = a_\parallel b + a_\perp b.$$
+Note that, again, this is precisely when the symmetric product vanishes. Spoiler alert: the symmetric product can be used as an inner product.
 
-We showed above that
+It is not clear to me whether orthogonality is automatically compatible with collinearity in the following. If anyone has any ideas, let me know! (Otherwise, consider the following an axiom).
 
-$$a_\parallel b = \frac{1}{2}(a_\parallel b + b a_\parallel),$$
+Given vectors $a$ and $b$, there exist vectors $a_\parallel$ and $a_\perp$, such that the decomposition
 
-and our definition of orthogonality is that
+$$a = a_\parallel + a_\perp$$ 
 
-$$a_\perp b = \frac{1}{2}(a_\perp b - b a_\perp).$$
-
-These two facts imply the stronger statements that
+satisfies
 
 $$a_\parallel b = \frac{1}{2}(ab + ba) = b a_\parallel,$$ 
 
@@ -60,37 +80,61 @@ and
 
 $$a_\perp b = \frac{1}{2}(ab - ba) = - b a_\perp.$$
 
+With these notions of orthogonality, collinearity, and their compatibility in hand, we can now go on to construct a graded algebra.
 
 #### Grade
 
-The geometric algebra $G$ consists of all things that can be generated by sums and products of vectors in $\mathbb{R}^\infty$.
+The geometric algebra $G$ consists of all things that can be generated by sums and products of vectors in $V$.
 
-The product of $k$ orthogonal vectors $A = a_1 a_2 ... a_n$ is called an **k-vector**, or sometimes a **k-blade**. These define subspaces of $\mathbb{R}^\infty$. The grade of $A$ refers to the number of linearly independent vectors needed to define it. For instance, $a_\perp b$ is a 2-vector, or more commonly a bivector, and it determines a two-dimensional subspace of $\mathbb{R}^\infty$.
+The product of $k$ orthogonal vectors $A = a_1 a_2 ... a_k$ is called an **k-vector** (or sometimes a **k-blade**). These determine subspaces of $V$. The grade of $A$ refers to the number of linearly independent vectors needed to define it. For instance, $a_\perp b$ is a 2-vector, or more commonly a bivector, and it determines a two-dimensional subspace of $V$, spanned by $a_\perp$ and $b$.
 
 An arbitrary element $M \in G$ is called a **multivector** and consists of a sum over k-vectors. For example, the sum of a scalar and a bivector is a multivector. We will see some examples of multivectors that produce rotations, and other transformations, of k-vectors.
 
 But what about the product of parallel vectors? What is the grade of $a^2$ and $b^2$, for instance? If we endow the geometric product with associativity, then we can determine their grade by considering the square of a bivector:
 
-$$(a_\perp b)^2 = a_\perp b a_\perp b = -a_\perp (a_\perp b^2) = - (a_\perp b^2) a_\perp.$$
+$$(a_\perp b)^2 = a_\perp b a_\perp b = -a_\perp a_\perp b^2 = - a_\perp b^2 a_\perp.$$
 
-In particular, the facts
+In particular, if we endow the product with distributivity, the facts
 
-$$a_\perp (a_\perp b^2) = (a_\perp b^2) a_\perp$$
+$$a_\perp a_\perp b^2 = a_\perp b^2 a_\perp$$
 
 and
 
-$$a_\parallel (a_\parallel b^2) = (a_\parallel b^2) a_\parallel$$
+$$a_\parallel a_\parallel b^2 = a_\parallel b^2 a_\parallel$$
 
 tell us that
 
-$$a (ab^2) = (ab^2) a$$
+$$aab^2 = ab^2 a$$
 
-for arbitrary vectors $a$ and $b$. That is, $ab^2$ commutes with $a$.
+for arbitrary vectors $a$ and $b$. This means that $b^2$ necessarily commutes with all (!) vectors. Elements of the algebra that commute with everything are said to have grade $0$ and are called scalars. The only scalars in our algebra currently are those inherited by the vector field from which it was generated. **Geometric algebra** is precisely the graded algebra for which these the scalars are the real numbers.
 
-It can be shown that $a b^2$ must be a vector (WIP: use the fact that this holds for all $a$ and $b$ and eliminate all other possibilities. suppose it is a scalar, then it commutes with everything, in particular something orthogonal to $a$ and $b$. etc, etc. scalars are the only objects to commute with all vectors in $\mathbb{R}^\infty$ and hence all k-vectors.), and since it commutes, $a b^2$ is a vector parallel to $a$, and therefore must be a scalar multiple. Hence, $a^2, b^2 \in \mathbb{R}$.
-
-In general, $a_\parallel = cb$ for some scalar $c$, so
+Since $a_\parallel = cb$ for some scalar $c$, the symmetric product of any two vectors
 
 $$\frac{1}{2}(ab + ba) = a_\parallel b = c b^2$$
 
-is has grade 0 as well. Hence, $ab$ is the sum of a scalar and a bivector.
+is grade 0 as well, and the anti-symmetric product
+
+$$\frac{1}{2}(ab - ba) = a_\perp b$$
+
+is a bivector. Hence, the multivector $ab$ is the sum of a scalar and a bivector.
+
+#### Summary
+
+A geometric algebra $G$ consists of all sums and products generated from a vector space $V$ by a product with the following properties. For $a, b, c \in V$
+
+1. $$a(bc) = (ab)c = abc \text{ (associativity)},$$
+2. $$a(b + c) = ab + ac \text{ and } (a + b)c = ac + bc \text{ (distributivity)},$$
+3. $$a = \lambda b \iff ab = ba, \lambda \in \mathbb{R} \text{ (commutative collinearity)},$$ 
+4. Given vectors $a$ and $b$, there exist vectors $a_\parallel$ and $a_\perp$, such that the decomposition $a = a_\parallel + a_\perp$ satisfies $$a_\parallel b = b a_\parallel$$ and $$a_\perp b = - b a_\perp.$$
+
+It follows that arbitrary $A, B, C \in G$ satisfy (1) and (2).
+
+Normally, the axioms (3) and (4) are replaced with the so-called *contraction property*
+
+$$a^2 = g(a,a) \in \mathbb{R} \text{ (contraction)},$$
+
+for some inner product $g$.
+
+I avoided this axiom, because it obscures that the symmetric product of two vectors is a scalar follows directly from commutativity and decomposition properties (3) and (4).
+
+If anyone has thoughts on whether (4) is extraneous, please [open an issue](https://github.com/lukeburns/geometric-algebra/issues) or [fork and submit a pull request](https://github.com/lukeburns/geometric-algebra/pulls)!
