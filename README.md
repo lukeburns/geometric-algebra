@@ -90,11 +90,11 @@ The product of $k$ orthogonal vectors $A = a_1 a_2 ... a_k$ is called an **k-vec
 
 An arbitrary element $M \in G$ is called a **multivector** and consists of a sum over k-vectors. For example, the sum of a scalar and a bivector is a multivector. We will see some examples of multivectors that produce rotations, and other transformations, of k-vectors.
 
-But what about the product of parallel vectors? What is the grade of $a^2$ and $b^2$, for instance? If we endow the geometric product with associativity, then we can determine their grade by considering the square of a bivector:
+But what about the product of parallel vectors? What is the grade of $a^2$ and $b^2$, for instance? If we endow the geometric product with associativity and distributivity, then we can determine their grade by considering the square of a bivector:
 
 $$(a_\perp b)^2 = a_\perp b a_\perp b = -a_\perp a_\perp b^2 = - a_\perp b^2 a_\perp.$$
 
-In particular, if we endow the product with distributivity, the facts
+In particular, the facts
 
 $$a_\perp a_\perp b^2 = a_\perp b^2 a_\perp$$
 
@@ -120,7 +120,7 @@ is a bivector. Hence, the multivector $ab$ is the sum of a scalar and a bivector
 
 #### Summary
 
-A geometric algebra $G$ consists of all sums and products generated from a vector space $V$ by a product with the following properties. For $a, b, c \in V$
+A geometric algebra $G$ consists of all sums and products of elements in a vector space $V$ satisfying the following properties. For $a, b, c \in V$
 
 1. $$a(bc) = (ab)c = abc \text{ (associativity)},$$
 2. $$a(b + c) = ab + ac \text{ and } (a + b)c = ac + bc \text{ (distributivity)},$$
@@ -135,6 +135,6 @@ $$a^2 = g(a,a) \in \mathbb{R} \text{ (contraction)},$$
 
 for some inner product $g$.
 
-I avoided this axiom, because it obscures that the symmetric product of two vectors is a scalar follows directly from commutativity and decomposition properties (3) and (4).
+I avoided this axiom, because it obscures the algebraic properties that give rise to contraction. The fact that the symmetric product of two vectors is a scalar is a consequence of the commutativity and decomposition properties (3) and (4).
 
 If anyone has thoughts on whether (4) is extraneous, please [open an issue](https://github.com/lukeburns/geometric-algebra/issues) or [fork and submit a pull request](https://github.com/lukeburns/geometric-algebra/pulls)!
