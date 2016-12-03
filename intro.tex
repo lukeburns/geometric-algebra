@@ -1,0 +1,348 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[linkcolor=blue]{hyperref}
+
+\title{An Introduction to Geometric Algebra}
+\author{Luke Burns}
+
+\begin{document}
+\maketitle
+
+This is a work in progress explanation of geometric algebra. Please
+\href{https://github.com/lukeburns/geometric-algebra/issues}{open an
+issue} or
+\href{https://github.com/lukeburns/geometric-algebra/pulls}{fork and
+submit a pull request} if you find a mistake or room for improvement.
+
+\section{Introduction}\label{introduction}
+
+\emph{Geometric algebra} is a language that generalizes vectors to
+higher dimensional objects. Vectors are useful for encoding the notion
+of a directed line segment, and we find that the extension of this to
+\emph{bivectors} (as oriented planes), \emph{trivectors} (as oriented
+volumes), and \emph{k-vectors} (as oriented k-dimensional volumes),
+leads one to rich and robust algebraic structures grounded in geometry.
+\textbf{k} is called the \textbf{grade} of a vector. Naturally,
+0-vectors are simply magnitudes (real numbers) with no dimensionality at
+all.
+
+I will use italics to indicate a word that the reader is not yet
+expected to know, using context to facilitate the learning of its
+meaning. Bolded font is used to indicate that I believe the meaning of
+the word has been sufficiently communicated. If you come across a bolded
+word, and do not know what I mean, re-read! I will use the strategy of
+introducing axioms as they're needed and will consider that I've
+accomplished my job if I am able to help you learn how to use the
+concepts here productively and consistently.
+
+My mission here is to formalize the notion of grade using a product
+called the \emph{geometric product} and introduce you to new objects of
+mixed grade called \emph{multivectors}, in particular certain
+multivectors called \emph{spinors}.
+
+\section{The Geometric Product}\label{the-geometric-product}
+
+The \emph{geometric product} of two vectors $a, b \in V$ is denoted
+$ab$ for some real vector space $V$.
+
+In order to decide what this product might mean, we can separate the
+product into a \emph{symmetric} part and an \emph{anti-symmetric} part.
+
+$$ab = \frac{1}{2}(ab + ba) + \frac{1}{2}(ab - ba)$$
+
+The \textbf{symmetric product} is
+
+$$\frac{1}{2}(ab + ba) = \frac{1}{2}(ba + ab),$$
+
+and the \textbf{anti-symmetric product} is
+
+$$\frac{1}{2}(ab - ba) = - \frac{1}{2}(ba - ab).$$
+
+Note that these are precisely statements about the commutativity
+properties of $a$ and $b$. In particular,
+
+$$ab = ba \iff \frac{1}{2}(ab - ba) = 0$$
+
+and
+
+$$ab = -ba \iff \frac{1}{2}(ab + ba) = 0.$$
+
+In general, the product of $a$ and $b$ is non-commutative.
+
+\paragraph{Collinearity and
+Orthogonality}\label{collinearity-and-orthogonality}
+
+Notice that if $a$ and $b$ are linearly dependent, then they
+commute:
+
+$$a = \lambda b \implies ab = ba, \text{ for } \lambda \in \mathbb{R}.$$
+
+In general, there's no reason the converse should be true. For instance,
+consider $\cos(\theta)$ and $\sin(\theta)$. They commute
+$\cos(\theta) \sin(\theta) = \sin(\theta) \cos(\theta))$ but are not
+linearly dependent.
+
+However, vectors $a, b$ that satisfy
+
+$$a = \lambda b \iff ab = ba, \text{ for } \lambda \in \mathbb{R},$$
+
+exhibit an equivalence between commutativity and geometric properties.
+These are the type of vectors that populate a geometric algebra.
+
+The following axiom enforces an equivalence between commutativity and
+collinearity, anti-commutativity and orthogonality:
+
+Given vectors $a$ and $b$, there exists $\lambda \in \mathbb{R}$
+such that
+
+$$\frac{1}{2}(ab + ba) = \lambda b^2.$$
+
+Let's call this axiom absorption, because the product fully absorbs the
+part of $a$ that is linearly dependent part on $b$.
+
+It follows that
+
+$$a = a_\parallel + a_\perp$$
+
+for $a_\parallel = \lambda b$, is a canonical decomposition of $a$
+with respect to $b$ satisfying
+
+$$\frac{1}{2} (ab + ba) = a_\parallel b = b a_\parallel$$
+
+and
+
+$$\frac{1}{2} (ab - ba) = a_\perp b = -b a_\perp.$$
+
+Call the vectors $a$ and $b$ \textbf{collinear} (or parallel) if and
+only if
+
+$$ab = ba$$
+
+and \textbf{orthogonal} (or perpendicular) if and only if
+
+$$ab = -ba.$$
+
+Note that, by symmetry,
+
+$$\frac{1}{2}(ab + ba) = \lambda b^2 = \lambda' a^2 = \frac{1}{2}(ba + ab),$$ for some $\lambda' \in \mathbb{R}$.
+
+\paragraph{Grade}\label{grade}
+
+The geometric algebra $G$ consists of all things that can be generated
+by products and sums of products of vectors in $V$.
+
+The product of $k$ orthogonal vectors $A_k = a_1 a_2 ... a_k$ is
+called a \textbf{k-vector} (or sometimes a \textbf{k-blade}), where I've
+tacitly asserted that the product is associative. These determine
+subspaces of $V$. The grade of $A_k$ refers to the number of
+linearly independent vectors needed to define it. For instance,
+$a_\perp b$ is a 2-vector, or more commonly a bivector, and it
+determines a two-dimensional subspace of $V$, spanned by $a_\perp$
+and $b$. Additionally, every i-blade is linearly independent of every
+j-blade, for $i\not=j$.
+
+An arbitrary element $M = \sum_{i=0}^{n} A_i \in G$ is called a
+\textbf{multivector} and consists of a sum of arbitrary k-vectors. For
+example, the sum of a scalar and a bivector is a multivector. We will
+see some examples of multivectors that produce rotations, and other
+transformations, of k-vectors.
+
+But what about the product of parallel vectors? What is the grade of
+$a^2$ and $b^2$, for instance? If we endow the geometric product
+with distributivity, then we can determine their grade by considering
+the square of a bivector:
+
+$$(a_\perp b)^2 = a_\perp b a_\perp b = -a_\perp a_\perp b^2 = - a_\perp b^2 a_\perp.$$
+
+In particular, the facts
+
+$$a_\perp a_\perp b^2 = a_\perp b^2 a_\perp$$
+
+and
+
+$$a_\parallel a_\parallel b^2 = a_\parallel b^2 a_\parallel$$
+
+tell us that
+
+$$aab^2 = ab^2 a$$
+
+for arbitrary vectors $a$ and $b$. This means that $b^2$
+necessarily commutes with all (!) vectors. Elements of the algebra that
+commute with everything are said to have grade $0$ and are called
+scalars of $G$, denoted $G_0 \subseteq G$. \textbf{Geometric
+algebra} is precisely the algebra for which $G_0 = \mathbb{R}$, which is what we'll use from now onward.
+
+Since $a_\parallel = \lambda b$ for some scalar $\lambda$, the
+symmetric product of any two vectors
+
+$$\frac{1}{2}(ab + ba) = a_\parallel b = \lambda b^2$$
+
+is grade 0 as well.
+
+\paragraph{The Dot and Wedge Products}\label{the-dot-and-wedge-products}
+
+For two vectors $a,b \in V$, define
+
+$$a \cdot b = \frac{1}{2}(ab + ba).$$
+
+Notice that $a \cdot b : V \times V \to G_0$ is a map that satisfies the following properties for vectors $a, b, c \in V$ and $\lambda \in \mathbb{R}$:
+
+\begin{enumerate}
+\item $$a \cdot b = b \cdot a \text{ (symmetry)}$$
+\item $$\lambda (a \cdot b) = (\lambda a) \cdot b \text{ (linearity)}$$
+\item $$(a + b) \cdot c = a \cdot c + a \cdot b \text{ (distributivity)}$$
+\item $$a \cdot b \in G_0 = \mathbb{R}.$$
+\end{enumerate}
+
+That is, $a \cdot b$ is an inner product, called the dot product. This
+gives us a notion of the length of a vector given by
+$a \cdot a = a^2 \in \mathbb{R}$ which we'll call the square of the
+magnitude of $a$.
+
+If $a^2 \not= 0$, then $a$ has an inverse
+
+$$a^{-1} = a / a^2$$
+
+satisfying
+
+$$a a^{-1} = 1.$$
+
+Furthermore, then $a$ has an associated unit vector
+
+$$\hat a = a / |a|$$
+
+where $|a| = \sqrt{\pm a^2}$ (allowing $a^2 < 0$), such that
+
+$$a = |a| \hat a.$$
+
+On the flip side, for two vectors $a, b \in V$,
+
+$$a \wedge b = \frac{1}{2}(ab - ba)$$
+
+is an exterior product, which generates higher graded objects, called
+the wedge product.
+
+To conclude, the geometric product of two vectors takes the form
+
+$$ab = a \cdot b + a \wedge b,$$
+
+where $a \cdot b$ is a scalar and $a \wedge b$ is a bivector.
+
+\paragraph{Summary of Axioms}\label{summary-of-axioms}
+
+A geometric algebra $G$ is a vector space equipped with the geometric
+product, which satisfies the following properties. For $a, b, c \in V$
+
+\begin{enumerate}
+\item $$a(bc) = (ab)c = abc \text{ (associativity)},$$
+\item $$a(b + c) = ab + ac \text{ and } (a + b)c = ac + bc \text{ (distributivity)},$$
+\item $$\exists \lambda \in \mathbb{R} \text{ such that } \frac{1}{2}(ab + ba) = \lambda b^2 \text{ (absorption).}$$
+\item $$G_0 = \mathbb{R}$$
+\end{enumerate}
+
+Usually, axioms (3) and (4) are replaced with the so-called
+\emph{contraction property}
+
+$$a^2 = g(a,a) \in \mathbb{R} \text{ (contraction)},$$
+
+for some inner product $g$. I avoided this, because it obscures the
+fact that the weaker statement (3) implies contraction (i.e.~that the
+inner product is a scalar). Of course, they are in the end equivalent.
+
+\section{Rotations}\label{spinors}
+
+Now that a number of results have been established, let me show you an
+example of what we can do with the geometric product.
+
+I wish to compare the problem of rotating one vector onto another by use of the matrix product and by use of the geometric product.
+
+\paragraph{The Matrix Product}
+
+In vector algebra, two-dimensional vectors can be written
+
+$$\vec x = x_1 \hat x + x_2 \hat y,$$
+
+as in Gibbs's vector algebra, but need to be converted to matrix form 
+
+$$\vec x = (x_1, x_2),$$
+
+where each column entry denotes a coordinate relative to some implicit coordinate system, in order to make use of matrix rotation operators.
+
+Given vectors $\vec a = (a_1, a_2)$ and $\vec b = (b_1, b_2)$, we wish to produce a matrix $R$ that rotates the row vector $\vec a$ into $\vec b$, i.e.
+
+$$\vec a R = \vec b.$$
+
+Two-dimensional rotations are given by
+
+$$ r(\theta) = \begin{bmatrix}
+      \cos(\theta) & \sin(\theta) \\
+      - \sin(\theta) & \cos(\theta)
+  \end{bmatrix},$$
+
+If $\cos(\theta) = \frac{\vec a \cdot \vec b}{|\vec a||\vec b|}$ and $\sin(\theta) = \pm \frac{|\vec a \times \vec b|}{|\vec a||\vec b|}$, depending on whether $\vec b$ is $\theta$ clockwise or counter-clockwise from $\vec a$, then
+
+$$R = \frac{|b|}{|a|} r$$
+
+is the desired rotation.
+
+\paragraph{The Geometric Product} Now let's consider the same problem using the geometric product instead of matrix multiplication. We wish to find a multivector $M$ that rotates $a$ into $b$, i.e.
+
+$$a M = b.$$
+
+If $a^2 \not = 0$, then $a$ has an inverse
+
+$$a^{-1} = a / a^2,$$
+
+which immediately gives
+
+$$M = a^{-1} b = ab / a^2.$$
+
+This is nuts, because it works for a vector of any dimension and signature. In particular, this means this not only describes vectors related by circular rotations but also vectors related by hyperbolic rotations in spaces such as Minkowski space.
+
+We had no need to mention coordinates in order to determine the transformation, or even to use it, and we can always specify coordinates if we so desire.
+
+Let's write it out in the canonical basis, assuming $a^2 > 0$ and $b^2 > 0$.
+
+\begin{align}
+  ab &= a \cdot b + a \wedge b \\
+     &= a_\parallel b + a_\perp b \\
+     &= (|a| \cos(\theta) \hat b) b + (|a| \sin(\theta) \hat a_\perp) b \\
+     &= |a||b|(\cos(\theta) + \sin(\theta) \hat a_\perp \hat b )\\
+     &= |a||b| e^{i \theta},
+\end{align}
+
+where $i = \hat a_\perp \hat b$ is a unit bivector and $i^2 = -1$ (try it!). I've also used two definitions of $\cos(\theta) = \frac{a \cdot b}{|a||b|}$ and $\sin(\theta) = \frac{|a \wedge b|}{|a||b|}$ (which were dependent on $a^2 >0$ and $b^2 > 0$) to determine the ``projection''
+
+$$a_\parallel = |a| \cos(\theta) \hat b$$ 
+
+and ``rejection''
+
+$$a_\perp = |a| \sin(\theta) \hat a_\perp.$$
+
+$M$ can now be written
+
+$$M = \frac{|b|}{|a|} e^{i \theta},$$
+
+and hence
+
+$$a M = |a| \hat a M = |b| \hat a e^{i \theta} = |b| \hat b = b.$$
+
+From this, the $e^{i \theta}$ factor can now be understood as an instruction to rotate the unit vector $\hat a$ into $\hat b$.
+
+While at first glance, the idea of adding vectors of different grades together might seem non-sensical. Here we see that doing so gives precisely the same benefits that one gets when adding a real number to an imaginary number.
+
+% Unlike the matrix formulation, the amount of data needed to specify the explicit form of $M$ is the same for any dimension.
+
+% \section{Goals}
+
+% \begin{enumerate}
+%   \item reason more efficiently and perform computations more easily without coordinates
+%     \subitem perform computations with less work by not using coordinates.  
+%     \subitem reason about symmetries more cogently by using commutativity properties of multivectors
+%   \item work out definitions cosh and sinh
+%     \subitem bivector of positive and negative norm (timelike plane) squares positively.
+%   \item work out arbitrary rotations on arbitrary vectors.
+%     \subitem two sided multiplication and spinors
+% \end{enumerate}
+\end{document}
